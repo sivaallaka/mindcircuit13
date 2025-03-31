@@ -10,7 +10,7 @@ pipeline {
       stage('checkout') {
             steps {
                 echo 'Cloning GIT HUB Repo '
-				git branch: 'main', url: 'https://github.com/devopstraininghub/mindcircuit13.git'
+				git branch: 'main', url: 'https://github.com/sivaallaka/mindcircuit13.git'
             }  
         }
 		
@@ -22,8 +22,8 @@ pipeline {
                 sh 'ls -ltr'
                 
                 sh ''' mvn sonar:sonar \\
-                      -Dsonar.host.url=http://44.210.116.12:9000 \\
-                      -Dsonar.login=squ_a46b6947d43a812180415ff94219120d2ddebcea'''
+                      -Dsonar.host.url=http://13.217.209.69:9000 \\
+                      -Dsonar.login=squ_61f7f839effe3b05667e2d2813c9a50525787cb1'''
             }
     	}
 		
@@ -41,7 +41,7 @@ pipeline {
         stage('Docker Image') {
             steps {
                 echo 'Docker Image building'
-				sh 'docker build -t devopshubg333/batch13:${BUILD_NUMBER} .'
+				sh 'docker build -t siva8374/mindcircuit13:${BUILD_NUMBER} .'
             }
         }
 		
@@ -51,10 +51,10 @@ pipeline {
 			 script {
 			withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) 
 			{
-            sh 'docker login -u devopshubg333 -p ${dockerhub}'
+            sh 'docker login -u siva8374 -p ${dockerhub}'
 			
 			 }
-			   sh 'docker push devopshubg333/batch13:${BUILD_NUMBER}'
+			   sh 'docker push siva8374/mindcircuit13:${BUILD_NUMBER}'
 			   
            
 				}
@@ -67,7 +67,7 @@ pipeline {
 		
 		 environment {
             GIT_REPO_NAME = "mindcircuit13"
-            GIT_USER_NAME = "devopstraininghub"
+            GIT_USER_NAME = "sivaallaka"
         }
 		
             steps {
@@ -75,8 +75,8 @@ pipeline {
 				withCredentials([string(credentialsId: 'githubtoken', variable: 'githubtoken')]) 
 				{
                   sh '''
-                    git config user.email "gorekarmadhu@gmail.com"
-                    git config user.name "Madhu"
+                    git config user.email "sivaallaka777@gmail.com"
+                    git config user.name "sivaallaka"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/batch13:.*/batch13:${BUILD_NUMBER}/g" deploymentfiles/deployment.yml
                     git add .
